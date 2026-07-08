@@ -28,10 +28,7 @@ func _process(delta: float) -> void:
 	var target_velocity = input_dir * speed
 	velocity = velocity.move_toward(target_velocity, acceleration * delta)
 
-	if velocity.length() > 0:
-		$AnimatedSprite2D.play()
-	else:
-		$AnimatedSprite2D.stop()
+	$AnimatedSprite2D.play()
 
 	position += velocity * delta
 	position = position.clamp(Vector2.ZERO, screen_size)
@@ -43,3 +40,5 @@ func _process(delta: float) -> void:
 	elif velocity.y != 0:
 		$AnimatedSprite2D.animation = "up"
 		$AnimatedSprite2D.flip_v = velocity.y > 0
+	else:
+		$AnimatedSprite2D.animation = "walk"
