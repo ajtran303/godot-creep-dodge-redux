@@ -1,5 +1,7 @@
 # Creep Dodge
 
+[Play On Itch.io!](https://sevngames.itch.io/creep-dodger-godot-2d-game-tutorial)
+
 Modified from Godot's first 2D game tutorial
 
 Features:
