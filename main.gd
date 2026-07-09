@@ -2,9 +2,10 @@ extends Node
 
 @export var mob_scene: PackedScene
 @export var death_animation: PackedScene
+@export var power_up_scene: PackedScene
 
 var score
-
+var power_up: Area2D = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -19,6 +20,11 @@ func _process(delta: float) -> void:
 func game_over() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	$PowerUpTimer.stop()
+	$PowerUpDespawnTimer.stop()
+	if is_instance_valid(power_up):
+		power_up.queue_free()
+	power_up = null
 	$HUD.show_game_over()
 	$Music.stop()
 	$DeathSound.play()
@@ -69,3 +75,31 @@ func _on_score_timer_timeout() -> void:
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
+	$PowerUpTimer.start()
+
+
+func _on_power_up_timer_timeout() -> void:
+	var power_up = power_up_scene.instantiate()
+	power_up.collected.connect(_on_power_up_collected)
+
+	var spawn_pos = $PowerUpPath/PowerUpLocation
+	spawn_pos.progress_ratio = randf()
+	power_up.position = spawn_pos.position
+	
+	add_child(power_up)
+	$PowerUpDespawnTimer.start()
+
+
+func _on_power_up_collected() -> void:
+	$Player.start_invincibility(5.0)
+	power_up = null
+	$PowerUpDespawnTimer.stop()
+	$PowerUpTimer.start()
+	
+
+
+func _on_power_up_despawn_timer_timeout() -> void:
+	if is_instance_valid(power_up):
+		power_up.queue_free()
+	power_up = null
+	$PowerUpTimer.start()

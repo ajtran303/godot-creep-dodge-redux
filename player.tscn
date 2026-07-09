@@ -48,4 +48,7 @@ frame_progress = 0.31444255
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1402909223]
 shape = SubResource("CapsuleShape2D_wb2dy")
 
+[node name="InvincibilityTimer" type="Timer" parent="." unique_id=1963903410]
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

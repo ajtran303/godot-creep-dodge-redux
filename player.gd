@@ -7,6 +7,8 @@ signal hit
 
 var velocity = Vector2.ZERO
 var screen_size
+var invincible = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -47,6 +49,9 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
+	if invincible:
+		return
+	
 	hide()
 	hit.emit()
 	$CollisionShape2D.set_deferred("disabled", true)
@@ -55,3 +60,10 @@ func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+
+func start_invincibility(duration: float) -> void:
+	invincible = true
+	$InvincibilityTimer.start(duration)
+
+func _on_invincibility_timer_timeout() -> void:
+	invincible = false
