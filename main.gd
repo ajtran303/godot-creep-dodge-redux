@@ -1,6 +1,8 @@
 extends Node
 
 @export var mob_scene: PackedScene
+@export var death_animation: PackedScene
+
 var score
 
 
@@ -20,6 +22,10 @@ func game_over() -> void:
 	$HUD.show_game_over()
 	$Music.stop()
 	$DeathSound.play()
+	var death_animation = death_animation.instantiate()
+	death_animation.global_position = $Player.global_position
+	add_child(death_animation)
+	death_animation.emitting = true
 
 
 func new_game() -> void:

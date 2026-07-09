@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ciynkjjt2hkgf" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://c0s8u6tq052vc" path="res://player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://b4ltg2ckr5l6f" path="res://mob.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://c72wwum2xe7dw" path="res://death_animation.tscn" id="3_7mycd"]
 [ext_resource type="PackedScene" uid="uid://5x1snb7v0736" path="res://hud.tscn" id="4_1bvp3"]
 [ext_resource type="AudioStream" uid="uid://dgtl4xoec58m2" path="res://art/gameover.wav" id="5_lquwl"]
 
@@ -32,6 +33,7 @@ loop = true
 [node name="Main" type="Node" unique_id=775566966]
 script = ExtResource("1_0xm2m")
 mob_scene = ExtResource("2_h2yge")
+death_animation = ExtResource("3_7mycd")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=2041979769]
 anchors_preset = 15
@@ -40,6 +42,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.22352941, 0.57254905, 0.44313726, 1)
+
+[node name="DeathAnimation" parent="." unique_id=1239463097 instance=ExtResource("3_7mycd")]
 
 [node name="Player" parent="." unique_id=165430929 instance=ExtResource("1_ig7tw")]
 

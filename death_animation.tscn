@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c72wwum2xe7dw"]
+
+[sub_resource type="Gradient" id="Gradient_272bh"]
+colors = PackedColorArray(0.81960785, 0, 0, 1, 1, 1, 1, 0)
+
+[node name="DeathAnimation" type="CPUParticles2D" unique_id=1239463097]
+emitting = false
+amount = 24
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 60)
+initial_velocity_min = 80.0
+initial_velocity_max = 200.0
+damping_min = 20.0
+damping_max = 40.0
+scale_amount_max = 2.0
+color = Color(0.81960785, 0, 0, 1)
+color_ramp = SubResource("Gradient_272bh")
