@@ -41,6 +41,10 @@ func new_game() -> void:
 func _on_mob_timer_timeout() -> void:
 	var mob = mob_scene.instantiate()
 	
+	var scale_factor = randf_range(0.75, 1.5)
+	mob.get_node("AnimatedSprite2D").scale *= scale_factor
+	mob.get_node("CollisionShape2D").scale = Vector2.ONE * scale_factor
+	
 	var mob_spawn_location = $MobPath/MobSpawnLocation
 	mob_spawn_location.progress_ratio = randf()
 	
@@ -51,7 +55,7 @@ func _on_mob_timer_timeout() -> void:
 	direction += randf_range(-PI / 4, PI / 4)
 	mob.rotation = direction
 	
-	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
+	var velocity = Vector2(randf_range(150.0, 250.0), 0.0) / scale_factor
 	mob.linear_velocity = velocity.rotated(direction)
 	
 	add_child(mob)
