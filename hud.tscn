@@ -2,12 +2,37 @@
 
 [ext_resource type="Script" uid="uid://djg4ydlii3jmq" path="res://hud.gd" id="1_64ctp"]
 [ext_resource type="FontFile" uid="uid://cgntu24yjn2rc" path="res://fonts/Xolonium-Regular.ttf" id="2_8sq4i"]
+[ext_resource type="Script" uid="uid://wii3g58m3kjc" path="res://touch_joystick.gd" id="3_8sq4i"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_64ctp"]
 action = &"start_game"
 
 [sub_resource type="Shortcut" id="Shortcut_lquwl"]
 events = [SubResource("InputEventAction_64ctp")]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wb2dy"]
+bg_color = Color(0.5176471, 0.5176471, 0.5176471, 0.15686275)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qskyy"]
+bg_color = Color(0, 0, 0, 0.3137255)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="HUD" type="CanvasLayer" unique_id=1486780168]
 script = ExtResource("1_64ctp")
@@ -53,8 +78,10 @@ offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_8sq4i")
-theme_override_font_sizes/font_size = 64
-text = "Dodge the Creeps!"
+theme_override_font_sizes/font_size = 60
+text = "Dodge Creeps!
+
+Get PowerUps!"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -79,6 +106,37 @@ text = "Start"
 [node name="MessageTimer" type="Timer" parent="." unique_id=1657766211]
 wait_time = 2.0
 one_shot = true
+
+[node name="TouchJoystick" type="Control" parent="." unique_id=226816802]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -88.0
+offset_top = -89.0
+offset_right = -8.0
+offset_bottom = -9.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("3_8sq4i")
+
+[node name="Base" type="Panel" parent="TouchJoystick" unique_id=817778860]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 80.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wb2dy")
+
+[node name="Knob" type="Panel" parent="TouchJoystick" unique_id=1466395531]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 60.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qskyy")
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

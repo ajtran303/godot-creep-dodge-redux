@@ -29,7 +29,11 @@ func _process(delta: float) -> void:
 		input_dir.y += 1
 	if Input.is_action_pressed("move_up"):
 		input_dir.y -= 1
-	input_dir = input_dir.normalized()
+	
+	if input_dir != Vector2.ZERO:
+		input_dir = input_dir.normalized()
+	else:
+		input_dir = $"../HUD/TouchJoystick".output
 
 	var target_velocity = input_dir * speed
 	velocity = velocity.move_toward(target_velocity, acceleration * delta)
