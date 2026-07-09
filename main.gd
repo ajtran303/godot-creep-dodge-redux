@@ -14,7 +14,10 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if $Player.invincible:
+		$HUD.update_invincibility_timer($Player.get_invincibility_time_left())
+	else:
+		$HUD.hide_invincibility_timer()
 
 
 func game_over() -> void:
@@ -28,10 +31,13 @@ func game_over() -> void:
 	$HUD.show_game_over()
 	$Music.stop()
 	$DeathSound.play()
-	var death_animation = death_animation.instantiate()
-	death_animation.global_position = $Player.global_position
-	add_child(death_animation)
-	death_animation.emitting = true
+	_spawn_death_animation($Player.global_position)
+
+func _spawn_death_animation(pos: Vector2) -> void:
+	var explosion = death_animation.instantiate()
+	explosion.global_position = $Player.global_position
+	add_child(explosion)
+	explosion.emitting = true
 
 
 func new_game() -> void:
@@ -41,6 +47,8 @@ func new_game() -> void:
 	$HUD.update_score(score)
 	$HUD.show_message("Get Ready")
 	get_tree().call_group("mobs", "queue_free")
+	if is_instance_valid(power_up):
+		power_up.queue_free()
 	$Music.play()
 
 
@@ -79,7 +87,7 @@ func _on_start_timer_timeout() -> void:
 
 
 func _on_power_up_timer_timeout() -> void:
-	var power_up = power_up_scene.instantiate()
+	power_up = power_up_scene.instantiate()
 	power_up.collected.connect(_on_power_up_collected)
 
 	var spawn_pos = $PowerUpPath/PowerUpLocation
@@ -91,7 +99,7 @@ func _on_power_up_timer_timeout() -> void:
 
 
 func _on_power_up_collected() -> void:
-	$Player.start_invincibility(5.0)
+	$Player.start_invincibility(3.0)
 	power_up = null
 	$PowerUpDespawnTimer.stop()
 	$PowerUpTimer.start()
@@ -103,3 +111,8 @@ func _on_power_up_despawn_timer_timeout() -> void:
 		power_up.queue_free()
 	power_up = null
 	$PowerUpTimer.start()
+
+
+func _on_player_mob_defeated(mob: Node2D) -> void:
+	_spawn_death_animation(mob.global_position)
+	mob.queue_free()

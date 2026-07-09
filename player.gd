@@ -1,6 +1,7 @@
 extends Area2D
 
 signal hit
+signal mob_defeated(mob: Node2D)
 
 @export var speed = 400 # pixels per second
 @export var acceleration = 2000 # pixels per second ^ 2
@@ -8,6 +9,7 @@ signal hit
 var velocity = Vector2.ZERO
 var screen_size
 var invincible = false
+var tween: Tween
 
 
 # Called when the node enters the scene tree for the first time.
@@ -50,6 +52,7 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if invincible:
+		mob_defeated.emit(body)
 		return
 	
 	hide()
@@ -64,6 +67,14 @@ func start(pos):
 func start_invincibility(duration: float) -> void:
 	invincible = true
 	$InvincibilityTimer.start(duration)
+	tween = create_tween().set_loops()
+	tween.tween_property(self, "modulate:a", 0.3, 0.15)
+	tween.tween_property(self, "modulate:a", 1.0, 0.15)
+
+func get_invincibility_time_left() -> float:
+	return $InvincibilityTimer.time_left
 
 func _on_invincibility_timer_timeout() -> void:
 	invincible = false
+	tween.kill()
+	modulate.a = 1.0

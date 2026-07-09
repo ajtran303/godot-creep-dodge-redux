@@ -35,6 +35,15 @@ func update_score(score):
 	$ScoreLabel.text = str(score)
 
 
+func update_invincibility_timer(time_left: float) -> void:
+	$InvincibilityLabel.text = "%.1f" % time_left
+	$InvincibilityLabel.show()
+
+
+func hide_invincibility_timer() -> void:
+	$InvincibilityLabel.hide()
+
+
 func _on_start_button_pressed() -> void:
 	$StartButton.hide()
 	start_game.emit()
